@@ -1,0 +1,19 @@
+UPDATE exams
+SET Max_Mark = 100
+WHERE Exam_ID = 2;
+
+SELECT s.Forename, s.Surname, r.Total_Mark
+FROM students s
+INNER JOIN 
+(SELECT Student_ID, sum(Mark) Total_Mark
+from results
+GROUP BY Student_ID ) r
+ON s.Student_ID = r.student_ID
+ORDER BY Total_Mark
+LIMIT 1;
+
+DELETE FROM students
+WHERE Student_ID in (
+SELECT DISTINCT Student_ID
+FROM results
+WHERE Mark < 40)
